@@ -1,9 +1,9 @@
 {
   "name": "angular-hateoas",
-  "version": "0.2.2",
+  "version": "0.2.2.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jmarquis/angular-hateoas.git"
+    "url": "https://github.com/malte2289/angular-hateoas.git"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -21,6 +21,6 @@
   "dependencies": {},
   "license": {
     "type": "MIT",
-    "url": "https://github.com/jmarquis/angular-hateoas/blog/master/LICENSE"
+    "url": "https://github.com/malte2289/angular-hateoas/blog/master/LICENSE"
   }
 }
