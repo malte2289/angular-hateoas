@@ -76,7 +76,8 @@ angular.module("hateoas", ["ngResource"])
 
 		// global Hateoas settings
 		var globalHttpMethods,
-			linksKey = "links";
+			linksKey = "links",
+            halEmbedded = false;
 
 		return {
 
@@ -87,6 +88,14 @@ angular.module("hateoas", ["ngResource"])
 			getLinksKey: function () {
 				return linksKey;
 			},
+
+            setHalEmbedded: function (newEmbeddedKey) {
+                halEmbedded = newEmbeddedKey;
+            },
+
+            getHalEmbedded: function () {
+                return halEmbedded;
+            },
 
 			setHttpMethods: function (httpMethods) {
 				globalHttpMethods = angular.copy(httpMethods);
@@ -106,9 +115,12 @@ angular.module("hateoas", ["ngResource"])
 				};
 
 				var resource = function (linkName, bindings, httpMethods) {
-					if (linkName in this[linksKey]) {
+					if (linkName in this[linksKey] && !halEmbedded) {
 						return $injector.get("$resource")(this[linksKey][linkName], bindings, httpMethods || globalHttpMethods);
-					} else {
+					}
+                    else if(linkName in this[linksKey] && halEmbedded){
+                        return $injector.get("$resource")(this[linksKey][linkName]['href'], bindings, httpMethods || globalHttpMethods);
+                    }else {
 						throw "Link '" + linkName + "' is not present in object.";
 					}
 				};
@@ -116,7 +128,7 @@ angular.module("hateoas", ["ngResource"])
 				var HateoasInterface = function (data) {
 
 					// if links are present, consume object and convert links
-					if (data[linksKey]) {
+					if (data[linksKey] ) {
 						data = angular.extend(this, data, { links: arrayToObject("rel", "href", data[linksKey]), resource: resource });
 					}
 

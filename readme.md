@@ -3,6 +3,8 @@ angular-hateoas
 
 An AngularJS module for using `$resource` with a HATEOAS-enabled REST API.
 
+__Forked to add HAL compatibility!__
+
 ### What is HATEOAS?
 
 [HATEOAS](http://en.wikipedia.org/wiki/HATEOAS), which stands for **Hypermedia as the Engine of Application State**, is a type of REST architecture that enables enhanced decoupling of server and client. The basic idea is that with every response, the server provides a list of endpoints (or "links") to perform actions or retrieve information related to the data in the response.
@@ -103,6 +105,18 @@ By default, `HateoasInterface` parses the HATEOAS links from an object with the 
 ```javascript
 app.config(function (HateoasInterfaceProvider) {
 	HateoasInterfaceProvider.setLinksKey("related");
+	// HateoasInterface will now search response data for links in a property called "related"
+});
+```
+
+#### Setting the Hateoas structure
+
+By default, `HateoasInterface` uses the Spring Framework Hateoas structure. To use HAL structure enable it during configuration.
+
+
+```javascript
+app.config(function (HateoasInterfaceProvider) {
+	HateoasInterfaceProvider.setHalEmbedded(true);
 	// HateoasInterface will now search response data for links in a property called "related"
 });
 ```
